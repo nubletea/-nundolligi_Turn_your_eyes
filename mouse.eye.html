@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>mouse stage</title>
+    <style>
+        body{
+            display:flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .eyes{
+            position: relative;
+            top:150px;
+            width:130px;
+            height:130px;
+            border:4px solid #000;
+            border-radius: 50%;
+            background-color:#fff;
+        }
+        .eye{
+            position: absolute;
+            left:45px;
+            bottom:0;
+            width:30px;
+            height:inherit;
+        }
+        .eye::before{
+            content: '';
+            display:inline-block;
+            left:0;
+            bottom:0;
+            width:inherit;
+            height:30px;
+            border-radius: 50%;
+            background-color: #000;
+        }
+    </style>
+</head>
+<body>
+    <div class="eyes left_eye">
+        <div class="eye"></div>
+    </div>
+    <div class="eyes right_eye">
+        <div class="eye"></div>
+    </div>
+<script>
+const eye_egg=function(selector){
+let   LEFT_EYE=document.querySelector(selector),
+      EYE=LEFT_EYE.querySelector('.eye'),
+      EYE_s=LEFT_EYE.getBoundingClientRect();
+      
+let move=function(mouseX, mouseY){             //각도알아내기 Math.atans2(mouseY-도라에몽눈Y,mouseX-도라에몽눈X);
+    let doto=Math.atan2(mouseY-(EYE_s.y+EYE_s.height*0.5),mouseX-(EYE_s.x+EYE_s.width*0.5));
+    EYE.style.transform="rotate("+(180*doto/Math.PI+90)+'deg)';// doto 값은 파이/180*각도 (180*doto /파이)
+    };
+    return{
+      move:move  
+    };
+};
+
+ const left_eye=eye_egg('.left_eye'),
+       right_eye=eye_egg('.right_eye');
+ window.addEventListener('mousemove',function(e){
+     left_eye.move(e.pageX,e.pageY);
+     right_eye.move(e.pageX,e.pageY);
+     console.log(e);
+});
+      
+</script>
+</body>
+</html>
